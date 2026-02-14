@@ -1,7 +1,7 @@
 import { test, expect } from '../../pageObjects/pageFixtureUserLoggedIn';
 
 test.describe('Add to cart', () => {
-  test.only('Check whether item can be added to a cart', async ({ allItemsPage, cartPage }) => {
+  test('Check whether item can be added to a cart', async ({ allItemsPage, cartPage }) => {
     const inventoryItem = await allItemsPage.inventoryItems.getItemByIndex(0);
     const expectedItemName = await inventoryItem.itemName.textContent();
     const expectedItemPrice = await inventoryItem.itemPrice.textContent();

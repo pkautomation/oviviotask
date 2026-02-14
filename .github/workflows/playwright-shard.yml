@@ -116,7 +116,7 @@ jobs:
       with:
         pattern: all-blob-reports-*
         merge-multiple: true
-        path: all-blob-reports
+        path: task1/all-blob-reports
       
     - name: Merge into HTML Report
       run: npx playwright merge-reports --reporter html ./all-blob-reports
