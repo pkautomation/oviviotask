@@ -41,12 +41,13 @@ jobs:
           
       - name: Install Dependencies
         run: npm install --prefer-offline
+        working-directory: task1
 
       - name: Get Playwright Package Version
         id: get-version
         uses: beaconbrigade/package-json-version@v0.3.1
         with:
-          path: node_modules/playwright
+          path: task1/node_modules/playwright
 
   playwright_test:
     name: Playwright Test
@@ -64,9 +65,11 @@ jobs:
 
       - name: Install Dependencies
         run: npm install
+        working-directory: task1
 
       - name: Run Tests
         run: npm run test:ci -- --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+        working-directory: task1
         env:
           HOME: /root # required for playwright to run in container
 
@@ -75,7 +78,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: all-blob-reports-${{ matrix.shardIndex }}
-          path: blob-report/
+          path: task1/blob-report/
           retention-days: 10
         
       # uploading to have a backup of the test-results in case reporting fails
@@ -84,7 +87,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: test-results-${{ matrix.shardIndex }}
-          path: test-results/
+          path: task1/test-results/
           retention-days: 10
           if-no-files-found: warn
           
@@ -106,6 +109,7 @@ jobs:
     
     - name: Install node packages
       run: npm install
+      working-directory: task1
     
     - name: Download blob reports from GitHub Actions Artifacts
       uses: actions/download-artifact@v4
@@ -115,7 +119,8 @@ jobs:
         path: all-blob-reports
       
     - name: Merge into HTML Report
-      run: npx playwright merge-reports --reporter html ./all-blob-reports 
+      run: npx playwright merge-reports --reporter html ./all-blob-reports
+      working-directory: task1 
         
     - name: Setup Pages
       uses: actions/configure-pages@v5
@@ -124,7 +129,7 @@ jobs:
       uses: actions/upload-pages-artifact@v3
       with:
         name: github-pages
-        path: playwright-report
+        path: task1/playwright-report
         retention-days: 14
 
     - name: Deploy to GitHub Pages
