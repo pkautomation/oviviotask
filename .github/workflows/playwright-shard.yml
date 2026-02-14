@@ -21,7 +21,7 @@ jobs:
     name: Set Job Params
     runs-on: ubuntu-latest
     outputs:
-      pw-version: ${{ steps.set_version.outputs.PW_VERSION }}
+      pw-version: ${{ steps.get-version.outputs.version }}
     steps:
       - uses: actions/checkout@v4
     
@@ -45,9 +45,9 @@ jobs:
 
       - name: Get Playwright Package Version
         id: get-version
-        uses: beaconbrigade/package-json-version@v0.3.1
-        with:
-          path: task1/node_modules/playwright
+        run: |
+          VERSION=$(node -e "console.log(require('./task1/node_modules/playwright/package.json').version)")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
 
   playwright_test:
     name: Playwright Test
