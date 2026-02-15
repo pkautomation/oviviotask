@@ -17,7 +17,6 @@ export default defineConfig({
     ? [
         ['line'],
         ['html', { open: 'never' }],
-        ['junit', { outputFile: 'junit.xml' }],
         ['blob', { outputDir: 'blob-report' }],
       ]
     : [['html', { open: 'always' }]],

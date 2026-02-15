@@ -1,0 +1,27 @@
+# Performance tests summary
+
+Target API: endpoint https://reqres.in/api/users?page=1
+Test duration: 5 minutes
+Connection: 1Gbps
+
+Response time:
+P50:14.13 ms
+P95:20.19 ms
+P99:27.48 ms
+
+Throughput (requests/sec): avg 99.7, max 111
+Error rate: 0
+
+# Interpretation
+
+What happened is: the API was able to handle 100 responses per second
+for 10 seconds. After that API was responding with non 200 status code 
+for about 1 minute. This pattern continued along the run.
+
+What could be the root cause: 
+Option 1: too many requests done by single api token
+- api can have limitation for particular user 
+and block him for a while from time to time
+Option 2: intentional traffic limitation
+- There might be configuration set to reject the requests 
+after certain amount of requests being done in particular period of time 
